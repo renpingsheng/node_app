@@ -1,0 +1,19 @@
+{
+  "name": "node_app",
+  "version": "1.0.0",
+  "description": "resuful api",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "server": "nodemon server.js"
+  },
+  "author": "renpingsheng",
+  "license": "ISC",
+  "dependencies": {
+    "bcrypt": "^2.0.1",
+    "body-parser": "^1.18.3",
+    "express": "^4.16.3",
+    "gravatar": "^1.6.0",
+    "mongoose": "^5.1.0"
+  }
+}
