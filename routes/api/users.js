@@ -11,6 +11,8 @@ const router = express.Router();
 
 const User = require("../../models/User");
 const keys = require("../../config/keys");
+const passport = require("passport");
+
 
 // $route GET api/users/test
 // @desc:返回的json数据
@@ -67,12 +69,12 @@ router.post("/login", (req, res) => {
         // 密码匹配
         bcrypt.compare(password, user.password).then(isMatch => {
             if (isMatch) {
-                const rule = {id:user.id,name:user.name};
-                jwt.sign(rule,keys.secretOrKey,{expiresIn:3600},(err,token) =>{
-                    if(err) throw err;
+                const rule = {id: user.id, name: user.name};
+                jwt.sign(rule, keys.secretOrKey, {expiresIn: 3600}, (err, token) => {
+                    if (err) throw err;
                     res.json({
-                        success:true,
-                        token:keys + token
+                        success: true,
+                        token: "Bearer " + token
                     })
                 })
             } else {
@@ -81,5 +83,18 @@ router.post("/login", (req, res) => {
         })
     })
 });
+
+
+// $route POST api/users/current
+// @desc:返回当前用户的信息
+// @access: private
+router.get("/current", passport.authenticate("jwt", {session: false}), (req, res) => {
+    res.json({
+        id:req.user.id,
+        name:req.user.name,
+        email:req.user.email
+    });
+})
+
 
 module.exports = router;

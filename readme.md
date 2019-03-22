@@ -11,4 +11,6 @@
     npm install
 ### 4.运行项目
 
-    npm install server
+    开发环境运行:npm run server
+    正式环境运行:npm run start
+
