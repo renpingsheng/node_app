@@ -39,6 +39,7 @@ router.post('/add', passport.authenticate('jwt', {session: false}), (req, res) =
     })
 });
 
+
 // @route  GET api/profiles/add
 // @desc   查询所有profile信息
 // @access private
@@ -52,7 +53,8 @@ router.get('/list', passport.authenticate('jwt', {session: false}), (req, res) =
     }).catch(err => res.status(404).json(err));
 });
 
-// @route  GET api/profiles/add
+
+// @route  POST api/profiles/:id
 // @desc   查询单条信息
 // @access private
 router.get('/:id', passport.authenticate('jwt', {session: false}), (req, res) => {
@@ -66,23 +68,26 @@ router.get('/:id', passport.authenticate('jwt', {session: false}), (req, res) =>
 });
 
 
-// // 编辑信息接口
-// router.post('/edit/:id', passport.authenticate('jwt', {session: false}), (req, res) => {
-//         let profileFields = {
-//             type: req.body.type || '',
-//             describe: req.body.describe || '',
-//             income: req.body.income || '',
-//             expend: req.body.expend || '',
-//             cash: req.body.cash || '',
-//             remark: req.body.remark || '',
-//         }
-//         profileModel.findOneAndUpdate(
-//             {_id: req.params.id},
-//             {$set: profileFields},
-//             {new: true}
-//         ).then(profile => res.json(profile));
-//     }
-// );
+// @route  POST api/profiles/edit/
+// @desc   编辑信息接口
+// @access private
+router.post('/edit/:id', passport.authenticate('jwt', {session: false}), (req, res) => {
+        const profileFields = {
+            type: req.body.type || '',
+            describe: req.body.describe || '',
+            income: req.body.income || '',
+            expend: req.body.expend || '',
+            cash: req.body.cash || '',
+            remark: req.body.remark || '',
+        };
+
+    Profile.findOneAndUpdate(
+            {_id: req.params.id},
+            {$set: profileFields},
+            {new: true}
+        ).then(profile => res.json(profile));
+    }
+);
 
 // 推荐接口注释格式
 // @route  POST api/profile/delete/:id
