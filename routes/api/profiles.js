@@ -45,7 +45,7 @@ router.post('/add', passport.authenticate('jwt', {session: false}), (req, res) =
 router.get('/list', passport.authenticate('jwt', {session: false}), (req, res) => {
     Profile.find().then((profile) => {
         if (profile) {
-            res.json(profile)
+            res.json(profile);
         } else {
             return res.status(404).json("获取列表失败")
         }
@@ -55,19 +55,15 @@ router.get('/list', passport.authenticate('jwt', {session: false}), (req, res) =
 // @route  GET api/profiles/add
 // @desc   查询单条信息
 // @access private
-// router.get('/:id', passport.authenticate('jwt', {session: false}), (req, res) => {
-//     profileModel.findOne({_id: req.params.id})
-//         .then((profile) => {
-//             if (profile) {
-//                 res.json(profile)
-//             } else {
-//                 res.json("不存在这条信息")
-//             }
-//         })
-//         .catch((err) => {
-//             console.log(err);
-//         })
-// });
+router.get('/:id', passport.authenticate('jwt', {session: false}), (req, res) => {
+    Profile.findOne({_id: req.params.id}).then(profile => {
+        if (profile) {
+            res.json(profile);
+        } else {
+            return res.status(404).json("获取列表失败")
+        }
+    }).catch(err => res.status(404).json(err));
+});
 
 
 // // 编辑信息接口
