@@ -3,7 +3,8 @@
         <section class="form_container">
             <div class="manage_tip">
                 <span class="title">后台管理系统</span>
-                <el-form :model="registerUser" :rules="rules" ref="registerForm" label-width="80px" class="registerForm">
+                <el-form :model="registerUser" :rules="rules" ref="registerForm" label-width="80px"
+                         class="registerForm">
                     <el-form-item label="用户名" prop="name">
                         <el-input v-model="registerUser.name" placeholder="请输入用户名"></el-input>
                     </el-form-item>
@@ -23,6 +24,7 @@
                         </el-select>
                     </el-form-item>
                     <el-form-item>
+                        <!--submitForm中传入的参数为: el-form里ref 的值-->
                         <el-button type="primary" class="submit_btn" @click="submitForm('registerForm')">注册</el-button>
                     </el-form-item>
                 </el-form>
@@ -32,10 +34,10 @@
 </template>
 
 <script>
-    export default{
+    export default {
         name: "register",
         components: {},
-        data(){
+        data() {
             var validatePass2 = (rule, value, callback) => {
                 if (value !== this.registerUser.password) {
                     callback(new Error("两次输入密码不一致!"));
@@ -44,46 +46,38 @@
                 }
             };
             return {
-                registerUser:{
-                    name:"",
-                    email:"",
-                    password:"",
-                    password2:"",
-                    identity:""
+                registerUser: {
+                    name: "",
+                    email: "",
+                    password: "",
+                    password2: "",
+                    identity: ""
                 },
+                // rules用来定义Form表单校验规则
                 rules: {
                     name: [
-                        { required: true, message: "用户名不能为空", trigger: "change" },
-                        { min: 2, max: 30, message: "长度在 2 到 30 个字符", trigger: "blur" }
+                        // trigger是指什么时候触发校验规则,blur是指在失去焦点时
+                        {required: true, message: "用户名不能为空", trigger: "change"},
+                        {min: 2, max: 30, message: "长度在 2 到 30 个字符", trigger: "blur"}
                     ],
                     email: [
-                        {
-                            type: "email",
-                            required: true,
-                            message: "邮箱格式不正确",
-                            trigger: "blur"
-                        }
+                        {type: "email", required: true, message: "邮箱格式不正确", trigger: "blur"}
                     ],
                     password: [
-                        { required: true, message: "密码不能为空", trigger: "blur" },
-                        { min: 6, max: 30, message: "长度在 6 到 30 个字符", trigger: "blur" }
+                        {required: true, message: "密码不能为空", trigger: "blur"},
+                        {min: 6, max: 30, message: "长度在 6 到 30 个字符", trigger: "blur"}
                     ],
                     password2: [
-                        { required: true, message: "确认密码不能为空", trigger: "blur" },
-                        {
-                            min: 6,
-                            max: 30,
-                            message: "长度在 6 到 30 个字符",
-                            trigger: "blur"
-                        },
-                        { validator: validatePass2, trigger: "blur" }
+                        {required: true, message: "确认密码不能为空", trigger: "blur"},
+                        {min: 6, max: 30, message: "长度在 6 到 30 个字符", trigger: "blur"},
+                        {validator: validatePass2, trigger: "blur"}
                     ]
                 }
             }
         },
         methods: {
             submitForm(formName) {
-                //console.log(formName); 输出"registerForm"
+                // console.log(formName);
                 this.$refs[formName].validate((valid) => {
                     if (valid) {
                         // alert('submit!');
@@ -91,16 +85,12 @@
                             .then(res => {
                                 // 注册成功，调用message组件提示注册成功
                                 this.$message({
-                                    message:"账号注册成功！",
+                                    message: "账号注册成功！",
                                     type: 'success'
                                 });
                             });
                         this.$router.push('/login'); //注册成功后，自动跳转到login页面
                     }
-                    // else {
-                    //     console.log('error submit!!');
-                    //     return false;
-                    // }
                 });
             }
         }
@@ -115,6 +105,7 @@
         background: url(../assets/bg.jpg) no-repeat center center;
         background-size: 100% 100%;
     }
+
     .form_container {
         width: 370px;
         height: 210px;
@@ -125,12 +116,14 @@
         border-radius: 5px;
         text-align: center;
     }
+
     .form_container .manage_tip .title {
         font-family: "Microsoft YaHei";
         font-weight: bold;
         font-size: 26px;
         color: #fff;
     }
+
     .registerForm {
         margin-top: 20px;
         background-color: #fff;
