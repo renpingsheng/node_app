@@ -45,7 +45,7 @@ router.beforeEach((to, from, next) => {
     if (to.path == '/login' || to.path == '/register') {
         next();
     } else {
-        console.log("isLogin: " + isLogin);
+        // console.log("isLogin: " + isLogin);
         isLogin ? next() : next('/login');
     }
 
