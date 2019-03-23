@@ -17,12 +17,12 @@ router.get('/test', (req, res) => {
 // @access private
 router.post('/add', passport.authenticate('jwt', {session: false}), (req, res) => {
     const profileFields = {};
-    if(req.body.type) profileFields.type = req.body.type;
-    if(req.body.describe) profileFields.describe = req.body.describe;
-    if(req.body.income) profileFields.income = req.body.income;
-    if(req.body.expend) profileFields.expend = req.body.expend;
-    if(req.body.cash) profileFields.cash = req.body.cash;
-    if(req.body.remark) profileFields.remark = req.body.remark;
+    if (req.body.type) profileFields.type = req.body.type;
+    if (req.body.describe) profileFields.describe = req.body.describe;
+    if (req.body.income) profileFields.income = req.body.income;
+    if (req.body.expend) profileFields.expend = req.body.expend;
+    if (req.body.cash) profileFields.cash = req.body.cash;
+    if (req.body.remark) profileFields.remark = req.body.remark;
 
     // 上面的代码也可以这样写
     // const profileFields = {
@@ -39,24 +39,22 @@ router.post('/add', passport.authenticate('jwt', {session: false}), (req, res) =
     })
 });
 
+// @route  GET api/profiles/add
+// @desc   查询所有profile信息
+// @access private
+router.get('/list', passport.authenticate('jwt', {session: false}), (req, res) => {
+    Profile.find().then((profile) => {
+        if (profile) {
+            res.json(profile)
+        } else {
+            return res.status(404).json("获取列表失败")
+        }
+    }).catch(err => res.status(404).json(err));
+});
 
-// // 查询所有信息
-// router.get('/list', passport.authenticate('jwt', {session: false}), (req, res) => {
-//     Profile.find()
-//         .then((profile) => {
-//             if (profile) {
-//                 res.json(profile)
-//             } else {
-//                 res.json("获取列表失败")
-//             }
-//         })
-//         .catch((err) => {
-//             console.log(err);
-//         })
-// });
-//
-//
-// // 查询单条信息
+// @route  GET api/profiles/add
+// @desc   查询单条信息
+// @access private
 // router.get('/:id', passport.authenticate('jwt', {session: false}), (req, res) => {
 //     profileModel.findOne({_id: req.params.id})
 //         .then((profile) => {
@@ -70,8 +68,8 @@ router.post('/add', passport.authenticate('jwt', {session: false}), (req, res) =
 //             console.log(err);
 //         })
 // });
-//
-//
+
+
 // // 编辑信息接口
 // router.post('/edit/:id', passport.authenticate('jwt', {session: false}), (req, res) => {
 //         let profileFields = {
