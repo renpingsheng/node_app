@@ -12,26 +12,34 @@ router.get('/test', (req, res) => {
 });
 
 
-// // 创建一条新信息
-// router.post('/add', passport.authenticate('jwt', {session: false}), (req, res) => {
-//     let json = {
-//         type: req.body.type || '',
-//         describe: req.body.describe || '',
-//         income: req.body.income || '',
-//         expend: req.body.expend || '',
-//         cash: req.body.cash || '',
-//         remark: req.body.remark || '',
-//     }
-//     new profileModel(json).save()
-//         .then((result) => {
-//             res.json(result)
-//         })
-//         .catch((err) => {
-//             console.log(err)
-//         })
-// });
-//
-//
+// @route  POST api/profiles/add
+// @desc   创建信息接口
+// @access private
+router.post('/add', passport.authenticate('jwt', {session: false}), (req, res) => {
+    const profileFields = {};
+    if(req.body.type) profileFields.type = req.body.type;
+    if(req.body.describe) profileFields.describe = req.body.describe;
+    if(req.body.income) profileFields.income = req.body.income;
+    if(req.body.expend) profileFields.expend = req.body.expend;
+    if(req.body.cash) profileFields.cash = req.body.cash;
+    if(req.body.remark) profileFields.remark = req.body.remark;
+
+    // 上面的代码也可以这样写
+    // const profileFields = {
+    //     type: req.body.type || '',
+    //     describe: req.body.describe || '',
+    //     income: req.body.income || '',
+    //     expend: req.body.expend || '',
+    //     cash: req.body.cash || '',
+    //     remark: req.body.remark || '',
+    // };
+
+    new Profile(profileFields).save().then(profile => {
+        res.json(profile)
+    })
+});
+
+
 // // 查询所有信息
 // router.get('/list', passport.authenticate('jwt', {session: false}), (req, res) => {
 //     Profile.find()
