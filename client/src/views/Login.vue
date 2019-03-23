@@ -24,6 +24,7 @@
         </section>
     </div>
 </template>
+
 <script>
     import jwt_decode from 'jwt-decode';
 
@@ -56,14 +57,15 @@
                         this.$axios.post('/api/users/login', this.loginUser).then(res => {
                             // 登录成功
                             const {token} = res.data;
-                            // console.log(token);
-                            // const decoded = jwt_decode(token);
-                            // console.log(decoded);
-                            //token 存储到vuex中（isEmpty判断对象是否为空的公共方法，在Login.vue后面定义）
-                            // this.$store.dispatch("setIsAuthenticated", !this.isEmpty(decoded));
-                            // this.$store.dispatch("setUser", decoded);
                             localStorage.setItem("eleToken", token);
-                            // this.$router.push('/index'); //注册成功后，自动跳转到主页面
+
+                            // 解析token
+                            const decoded = jwt_decode(token);
+
+                            // token 存储到vuex中（isEmpty判断对象是否为空的公共方法，在Login.vue后面定义）
+                            this.$store.dispatch("setAuthenticated", !this.isEmpty(decoded));
+                            this.$store.dispatch("setUser", decoded);
+                            this.$router.push('/index'); //注册成功后，自动跳转到主页面
                         });
                     }
                     else {
