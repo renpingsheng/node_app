@@ -72,34 +72,30 @@ router.get('/:id', passport.authenticate('jwt', {session: false}), (req, res) =>
 // @desc   编辑信息接口
 // @access private
 router.post('/edit/:id', passport.authenticate('jwt', {session: false}), (req, res) => {
-        const profileFields = {
-            type: req.body.type || '',
-            describe: req.body.describe || '',
-            income: req.body.income || '',
-            expend: req.body.expend || '',
-            cash: req.body.cash || '',
-            remark: req.body.remark || '',
-        };
+    const profileFields = {
+        type: req.body.type || '',
+        describe: req.body.describe || '',
+        income: req.body.income || '',
+        expend: req.body.expend || '',
+        cash: req.body.cash || '',
+        remark: req.body.remark || '',
+    };
 
     Profile.findOneAndUpdate(
             {_id: req.params.id},
             {$set: profileFields},
             {new: true}
-        ).then(profile => res.json(profile));
-    }
-);
+    ).then(profile => res.json(profile));
+});
 
-// 推荐接口注释格式
+
 // @route  POST api/profile/delete/:id
 // @desc   删除信息接口
 // @access Private
-// router.delete('/delete/:id', passport.authenticate('jwt', {session: false}), (req, res) => {
-//         profileModel.findOneAndDelete({_id: req.params.id})
-//             .then(profile => {
-//                 profile.save().then(profile => res.json(profile));
-//             })
-//             .catch(err => res.status(404).json('删除失败!'));
-//     }
-// );
+router.delete('/delete/:id', passport.authenticate('jwt', {session: false}), (req, res) => {
+    Profile.findOneAndDelete({_id: req.params.id}).then(profile => {
+        profile.save().then(profile => res.json(profile));
+    }).catch(err => res.status(404).json(err));
+});
 
 module.exports = router;
