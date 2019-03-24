@@ -2,7 +2,11 @@
     <div class="index">
         <HeadNav></HeadNav>
         <LeftMenu></LeftMenu>
-        <router-view></router-view>
+        <!--<router-view></router-view>-->
+        <div class="rightContainer">
+            <!-- 必须添加，否则二级路由页面不能显示 -->
+            <router-view></router-view>
+        </div>
     </div>
 </template>
 
