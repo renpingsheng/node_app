@@ -6,11 +6,15 @@
 
     npm i nodemon -g
     npm install nodemon -g
-### 3.安装依赖包
+### 3.安装后端依赖包
 
     npm install
-### 4.运行项目
+### 4.安装前端依赖包
 
-    开发环境运行:npm run server
-    正式环境运行:npm run start
+    cd client
+    npm install
+
+### 5.运行项目
+
+    npm run dev
 
